@@ -175,6 +175,21 @@ def edit_news(id):
                            )
 
 
+@app.route('/news_delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def news_delete(id):
+    db_sess = db_session.create_session()
+    news = db_sess.query(News).filter(News.id == id,
+                                      News.user == current_user
+                                      ).first()
+    if news:
+        db_sess.delete(news)
+        db_sess.commit()
+    else:
+        abort(404)
+    return redirect('/')
+
+
 def main():
     db_session.global_init("db/blogs.db")
     app.register_blueprint(news_api.blueprint)
