@@ -10,7 +10,7 @@ from data.news import News
 from forms.news import NewsForm
 import news_api
 
-from flask_restful import reqparse, abort, Api, Resource
+from flask_restful import abort, Api
 
 app = Flask(__name__)
 login_manager = LoginManager()
