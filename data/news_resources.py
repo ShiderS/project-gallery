@@ -13,6 +13,8 @@ parser.add_argument('title', required=True)
 parser.add_argument('content', required=True)
 parser.add_argument('is_private', required=True, type=bool)
 parser.add_argument('is_published', required=True, type=bool)
+# parser.add_argument('is_confirmed', required=True, type=bool)
+# parser.add_argument('is_deleted', required=True, type=bool)
 parser.add_argument('user_id', required=True, type=int)
 
 
@@ -55,6 +57,8 @@ class NewsListResource(Resource):
             content=args['content'],
             user_id=args['user_id'],
             is_published=args['is_published'],
+            # is_confirmed=args['is_confirmed'],
+            # is_deleted=args['is_deleted'],
             is_private=args['is_private']
         )
         session.add(news)
