@@ -6,8 +6,8 @@ from sqlalchemy_serializer import SerializerMixin
 from .db_session import SqlAlchemyBase
 
 
-class News(SqlAlchemyBase, SerializerMixin):
-    __tablename__ = 'news'
+class Projects(SqlAlchemyBase, SerializerMixin):
+    __tablename__ = 'projects'
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
@@ -17,9 +17,9 @@ class News(SqlAlchemyBase, SerializerMixin):
                                      default=datetime.datetime.now)
     is_private = sqlalchemy.Column(sqlalchemy.Boolean, default=True)
 
-    # is_confirmed = sqlalchemy.Column(sqlalchemy.Boolean, default=True)
+    is_confirmed = sqlalchemy.Column(sqlalchemy.Boolean, nullable=True, default=False)
 
-    # is_deleted = sqlalchemy.Column(sqlalchemy.Boolean, default=True)
+    is_deleted = sqlalchemy.Column(sqlalchemy.Boolean, nullable=True, default=False)
 
     # is_published = sqlalchemy.Column(sqlalchemy.Boolean, default=True)
 

@@ -5,7 +5,7 @@
     <title>Новости</title>
 </head>
 <body>
-    {% for item in news['news'] %}
+    {% for item in projects['projects'] %}
     <p>{{ loop.index }}<p>
         <h2>{{item["title"]}}</h2>
         <div>{{item["content"]}}</div>

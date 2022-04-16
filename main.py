@@ -1,14 +1,14 @@
 from os import abort
 from flask import Flask, request, make_response, render_template, redirect, jsonify
 import datetime
-from data import db_session, news_resources
+from data import db_session, projects_resources
 from data.user import User
 from forms.user import RegisterForm
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from forms.auth import LoginForm
-from data.news import News
-from forms.news import NewsForm
-import news_api
+from data.projects import Projects
+from forms.projects import ProjectsForm
+import projects_api
 
 from flask_restful import abort, Api
 
@@ -22,23 +22,23 @@ app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(
 api = Api(app)
 
 
-def abort_if_news_not_found(news_id):
+def abort_if_projects_not_found(projects_id):
     session = db_session.create_session()
-    news = session.query(News).get(news_id)
-    if not news:
-        abort(404, message=f"News {news_id} not found")
+    projects = session.query(Projects).get(projects_id)
+    if not projects:
+        abort(404, message=f"Projects {projects_id} not found")
 
 
 @app.route("/")
 def index():
     db_sess = db_session.create_session()
     if current_user.is_authenticated:
-        news = db_sess.query(News).filter(
-            (News.user == current_user) | (News.is_private != True))
+        projects = db_sess.query(Projects).filter(
+            (Projects.user == current_user) | (Projects.is_private != True))
     else:
-        news = db_sess.query(News).filter(News.is_private != True)
+        projects = db_sess.query(Projects).filter((Projects.is_private != True))
 
-    return render_template("index.html", news=news)
+    return render_template("index.html", projects=projects)
 
 
 def main():
@@ -123,67 +123,67 @@ def logout():
     return redirect("/")
 
 
-@app.route('/news',  methods=['GET', 'POST'])
+@app.route('/projects',  methods=['GET', 'POST'])
 @login_required
-def add_news():
-    form = NewsForm()
+def add_projects():
+    form = ProjectsForm()
     if form.validate_on_submit():
         db_sess = db_session.create_session()
-        news = News()
-        news.title = form.title.data
-        news.content = form.content.data
-        news.is_private = form.is_private.data
-        current_user.news.append(news)
+        projects = Projects()
+        projects.title = form.title.data
+        projects.content = form.content.data
+        projects.is_private = form.is_private.data
+        current_user.projects.append(projects)
         db_sess.merge(current_user)
         db_sess.commit()
         return redirect('/')
-    return render_template('news.html', title='Добавление проекта',
+    return render_template('projects.html', title='Добавление проекта',
                            form=form)
 
 
-@app.route('/news/<int:id>', methods=['GET', 'POST'])
+@app.route('/projects/<int:id>', methods=['GET', 'POST'])
 @login_required
-def edit_news(id):
-    form = NewsForm()
+def edit_projects(id):
+    form = ProjectsForm()
     if request.method == "GET":
         db_sess = db_session.create_session()
-        news = db_sess.query(News).filter(News.id == id,
-                                          News.user == current_user
+        projects = db_sess.query(Projects).filter(Projects.id == id,
+                                          Projects.user == current_user
                                           ).first()
-        if news:
-            form.title.data = news.title
-            form.content.data = news.content
-            form.is_private.data = news.is_private
+        if projects:
+            form.title.data = projects.title
+            form.content.data = projects.content
+            form.is_private.data = projects.is_private
         else:
             abort(404)
     if form.validate_on_submit():
         db_sess = db_session.create_session()
-        news = db_sess.query(News).filter(News.id == id,
-                                          News.user == current_user
+        projects = db_sess.query(Projects).filter(Projects.id == id,
+                                          Projects.user == current_user
                                           ).first()
-        if news:
-            news.title = form.title.data
-            news.content = form.content.data
-            news.is_private = form.is_private.data
+        if projects:
+            projects.title = form.title.data
+            projects.content = form.content.data
+            projects.is_private = form.is_private.data
             db_sess.commit()
             return redirect('/')
         else:
             abort(404)
-    return render_template('news.html',
+    return render_template('projects.html',
                            title='Редактирование проекта',
                            form=form
                            )
 
 
-@app.route('/news_delete/<int:id>', methods=['GET', 'POST'])
+@app.route('/projects_delete/<int:id>', methods=['GET', 'POST'])
 @login_required
-def news_delete(id):
+def projects_delete(id):
     db_sess = db_session.create_session()
-    news = db_sess.query(News).filter(News.id == id,
-                                      News.user == current_user
+    projects = db_sess.query(Projects).filter(Projects.id == id,
+                                      Projects.user == current_user
                                       ).first()
-    if news:
-        db_sess.delete(news)
+    if projects:
+        db_sess.delete(projects)
         db_sess.commit()
     else:
         abort(404)
@@ -191,14 +191,14 @@ def news_delete(id):
 
 
 def main():
-    db_session.global_init("db/blogs.db")
-    app.register_blueprint(news_api.blueprint)
+    db_session.global_init("db/project-gallerybd.db")
+    app.register_blueprint(projects_api.blueprint)
     app.run()
     # для списка объектов
-    api.add_resource(news_resources.NewsListResource, '/api/v2/news')
+    api.add_resource(projects_resources.ProjectsListResource, '/api/v2/projects')
 
     # для одного объекта
-    api.add_resource(news_resources.NewsResource, '/api/v2/news/<int:news_id>')
+    api.add_resource(projects_resources.ProjectsResource, '/api/v2/projects/<int:projects_id>')
 
 
 @app.errorhandler(404)
