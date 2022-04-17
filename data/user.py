@@ -21,6 +21,8 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     created_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                      default=datetime.datetime.now)
 
+    # is_developer = sqlalchemy.Column(sqlalchemy.Boolean, nullable=True, default=False)
+
     projects = orm.relation("Projects", back_populates='user')
 
     def set_password(self, password):

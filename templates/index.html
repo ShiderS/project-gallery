@@ -3,7 +3,7 @@
 {% block content %}
 <h1>Проекты</h1>
 {% if current_user.is_authenticated %}
-    <a href="projects" class="btn btn-secondary">Добавить проект</a>
+    <a href="projects" class="btn btn-success">Добавить проект</a>
 {% endif %}
 <img src="/static/img/logo.jpg" alt="здесь должна была быть картинка, но не нашлась">
 {% for item in projects%}

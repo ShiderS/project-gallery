@@ -192,6 +192,121 @@ def projects_delete(id):
     return redirect('/')
 
 
+# Панель разработчика
+
+
+@app.route('/developer_panel')
+@login_required
+def developer_panel():
+    db_sess = db_session.create_session()
+    if current_user.is_authenticated:
+        projects = db_sess.query(Projects).filter(
+            (Projects.user == current_user) | (Projects.is_private != True))
+    else:
+        projects = db_sess.query(Projects).filter((Projects.is_private != True))
+
+    return render_template("index_developer.html", projects=projects)
+
+
+@app.route('/developer_panel/projects_approve/<int:id>')
+@login_required
+def projects_approve(id):
+    db_sess = db_session.create_session()
+    projects = db_sess.query(Projects).filter(Projects.id == id,
+                                              Projects.user == current_user
+                                              ).first()
+    if projects:
+        projects.is_confirmed = True
+        db_sess.commit()
+    else:
+        abort(404)
+    return redirect('/developer_panel')
+
+
+@app.route('/developer_panel/projects_modification/<int:id>')
+@login_required
+def projects_modification(id):
+    db_sess = db_session.create_session()
+    projects = db_sess.query(Projects).filter(Projects.id == id,
+                                              Projects.user == current_user
+                                              ).first()
+    if projects:
+        projects.is_confirmed = False
+        # projects.is_modification = True
+        db_sess.commit()
+    else:
+        abort(404)
+    return redirect('/developer_panel')
+
+
+@app.route('/developer_panel/projects_delete/<int:id>')
+@login_required
+def projects_developer_delete(id):
+    db_sess = db_session.create_session()
+    projects = db_sess.query(Projects).filter(Projects.id == id,
+                                              Projects.user == current_user
+                                              ).first()
+    if projects:
+        db_sess.delete(projects)
+        # projects.is_modification = True
+        db_sess.commit()
+    else:
+        abort(404)
+    return redirect('/developer_panel')
+
+
+@app.route('/developer_panel/projects_not_delete/<int:id>')
+@login_required
+def projects_developer_not_delete(id):
+    db_sess = db_session.create_session()
+    projects = db_sess.query(Projects).filter(Projects.id == id,
+                                              Projects.user == current_user
+                                              ).first()
+    if projects:
+        projects.is_deleted = False
+        # projects.is_modification = True
+        db_sess.commit()
+    else:
+        abort(404)
+    return redirect('/developer_panel')
+
+
+# @app.route('/developer_projects/<int:id>', methods=['GET', 'POST'])
+# @login_required
+# def edit_projects_developer(id):
+#     form = ProjectsForm()
+#     if request.method == "GET":
+#         db_sess = db_session.create_session()
+#         projects = db_sess.query(Projects).filter(Projects.id == id,
+#                                           Projects.user == current_user
+#                                           ).first()
+#         projects.is_confirmed = False
+#         if projects:
+#             form.title.data = projects.title
+#             form.content.data = projects.content
+#             form.is_private.data = projects.is_private
+#         else:
+#             abort(404)
+#     if form.validate_on_submit():
+#         db_sess = db_session.create_session()
+#         projects = db_sess.query(Projects).filter(Projects.id == id,
+#                                           Projects.user == current_user
+#                                           ).first()
+#         projects.is_confirmed = False
+#         if projects:
+#             projects.title = form.title.data
+#             projects.content = form.content.data
+#             projects.is_private = form.is_private.data
+#             db_sess.commit()
+#             return redirect('/developer_panel')
+#         else:
+#             abort(404)
+#     return render_template('projects.html',
+#                            title='Редактирование проекта',
+#                            form=form
+#                            )
+
+
 def main():
     db_session.global_init("db/project-gallerybd.db")
     app.register_blueprint(projects_api.blueprint)
