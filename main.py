@@ -150,6 +150,7 @@ def edit_projects(id):
         projects = db_sess.query(Projects).filter(Projects.id == id,
                                           Projects.user == current_user
                                           ).first()
+        projects.is_confirmed = False
         if projects:
             form.title.data = projects.title
             form.content.data = projects.content
@@ -161,6 +162,7 @@ def edit_projects(id):
         projects = db_sess.query(Projects).filter(Projects.id == id,
                                           Projects.user == current_user
                                           ).first()
+        projects.is_confirmed = False
         if projects:
             projects.title = form.title.data
             projects.content = form.content.data
@@ -183,7 +185,7 @@ def projects_delete(id):
                                       Projects.user == current_user
                                       ).first()
     if projects:
-        db_sess.delete(projects)
+        projects.is_deleted = True
         db_sess.commit()
     else:
         abort(404)
