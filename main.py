@@ -45,6 +45,13 @@ def main():
 # User
 
 
+@app.route('user_profile/<int:id>', methods=['GET', 'POST'])
+@login_required
+def user_profile(id):
+    if current_user.is_authenticated:
+        return render_template('profile.html')
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def reqister():
     form = RegisterForm()
@@ -129,7 +136,7 @@ def index():
     return render_template("index.html", projects=projects)
 
 
-@app.route('/projects',  methods=['GET', 'POST'])
+@app.route('/projects', methods=['GET', 'POST'])
 @login_required
 def add_projects():
     form = ProjectsForm()
@@ -154,8 +161,8 @@ def edit_projects(id):
     if request.method == "GET":
         db_sess = db_session.create_session()
         projects = db_sess.query(Projects).filter(Projects.id == id,
-                                          Projects.user == current_user
-                                          ).first()
+                                                  Projects.user == current_user
+                                                  ).first()
         projects.is_confirmed = False
         if projects:
             form.title.data = projects.title
@@ -166,8 +173,8 @@ def edit_projects(id):
     if form.validate_on_submit():
         db_sess = db_session.create_session()
         projects = db_sess.query(Projects).filter(Projects.id == id,
-                                          Projects.user == current_user
-                                          ).first()
+                                                  Projects.user == current_user
+                                                  ).first()
         projects.is_confirmed = False
         if projects:
             projects.title = form.title.data
@@ -188,8 +195,8 @@ def edit_projects(id):
 def projects_delete(id):
     db_sess = db_session.create_session()
     projects = db_sess.query(Projects).filter(Projects.id == id,
-                                      Projects.user == current_user
-                                      ).first()
+                                              Projects.user == current_user
+                                              ).first()
     if projects:
         projects.is_deleted = True
         db_sess.commit()
