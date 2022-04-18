@@ -2,9 +2,6 @@
 
 {% block content %}
 <h1>Проекты</h1>
-{% if current_user.is_authenticated %}
-    <a href="projects" class="btn btn-secondary">Добавить проект</a>
-{% endif %}
 <img src="/static/img/logo.jpg" alt="здесь должна была быть картинка, но не нашлась">
 {% for item in projects%}
 {% if item.is_deleted or not item.is_confirmed %}
@@ -19,18 +16,22 @@
     </div>
     {% if current_user.is_authenticated %}
     <div>
+        {% if not item.is_developer %}
         <a href="/developer_panel/projects_approve/{{ item.id }}" class="btn btn-success">
             Утвердить
         </a>
         <a href="/developer_panel/projects_modification/{{ item.id }}" class="btn btn-primary">
             Отправить на доработку
         </a>
+        {% endif %}
         <a href="/projects/{{ item.id }}" class="btn btn-warning">
             Изменить
         </a>
+        {% if item.is_deleted %}
         <a href="/developer_panel/projects_not_delete/{{ item.id }}" class="btn btn-info">
             Оставить
         </a>
+        {% endif %}
         <a href="/developer_panel/projects_delete/{{ item.id }}" class="btn btn-danger">
             Удалить
         </a>
