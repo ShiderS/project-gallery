@@ -45,9 +45,9 @@ def main():
 # User
 
 
-@app.route('user_profile/<int:id>', methods=['GET', 'POST'])
+@app.route('/user_profile')
 @login_required
-def user_profile(id):
+def user_profile():
     if current_user.is_authenticated:
         return render_template('profile.html')
 
@@ -75,22 +75,6 @@ def reqister():
         db_sess.commit()
         return redirect('/login')
     return render_template('register.html', title='Регистрация', form=form)
-
-
-@app.route("/cookie_test")
-def cookie_test():
-    visits_count = int(request.cookies.get("visits_count", 0))
-    if visits_count:
-        res = make_response(
-            f"Вы пришли на эту страницу {visits_count + 1} раз")
-        res.set_cookie("visits_count", str(visits_count + 1),
-                       max_age=60 * 60 * 24 * 365 * 2)
-    else:
-        res = make_response(
-            "Вы пришли на эту страницу в первый раз за последние 2 года")
-        res.set_cookie("visits_count", '1',
-                       max_age=60 * 60 * 24 * 365 * 2)
-    return res
 
 
 @login_manager.user_loader
