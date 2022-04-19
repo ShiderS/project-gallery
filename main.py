@@ -108,6 +108,18 @@ def login():
 # Проекты
 
 
+@app.route('/viewing_project/<int:id>', methods=['GET', 'POST'])
+@login_required
+def viewing_project(id):
+    db_sess = db_session.create_session()
+    projects = db_sess.query(Projects).filter(Projects.id == id,
+                                              Projects.user == current_user
+                                              ).first()
+    # projects = db_sess.query(Projects).filter(
+    #     (Projects.user == current_user) | (Projects.is_private != True))
+    return render_template("viewing_project.html", projects=projects)
+
+
 @app.route("/")
 def index():
     db_sess = db_session.create_session()

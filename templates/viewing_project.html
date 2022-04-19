@@ -18,9 +18,6 @@
     </div>
     {% if current_user.is_authenticated and current_user == item.user %}
     <div>
-        <a href="/viewing_project/{{ item.id }}" class="btn btn-success">
-            Просмотреть
-        </a>
         <a href="/projects/{{ item.id }}" class="btn btn-warning">
             Изменить
         </a>
