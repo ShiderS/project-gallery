@@ -15,7 +15,7 @@
                 На главную
             </div>
             <div class="header_item headername">
-                <a href="#">Project Gallery</a>
+                <a href="/">Project Gallery</a>
             </div>
         </div>
         <div class="header_section">
@@ -23,7 +23,7 @@
                 Разместить проект
             </div>
             <div class="header_item headerbutton">
-                <a href="#">Выход</a>
+                <a href="/logout">Выход</a>
             </div>
         </div>
     </div>
@@ -36,7 +36,7 @@
         </div>
         <div class="profile prof_item">
             <img src="static/img/prof_img.png" alt="Украли цыгане" class="img_prof">
-            <center><p>NICKNAME</p></center>
+            <center><p>{{ current_user.name }}</p></center>
         </div>
         <div class="settings__profile prof_item">
         <div class="prof_item">
