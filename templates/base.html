@@ -12,12 +12,12 @@
 <body>
 <header>
     <nav class="navbar navbar-light bg-light">
-        <h1>ProjectGallery</h1>
-        <a href="/" class="btn btn-info">
+        <a href="/" class="text-decoration-none text-reset"><h1>ProjectGallery</h1></a>
+        <a href="/" class="btn btn-outline-info">
             Проекты
         </a>
         {% if current_user.is_developer %}
-        <a href="/developer_panel" class="btn btn-warning">
+        <a href="/developer_panel" class="btn btn-outline-warning">
             Панель разработчика
         </a>
         {% endif %}

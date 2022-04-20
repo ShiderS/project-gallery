@@ -115,8 +115,7 @@ def viewing_project(id):
     projects = db_sess.query(Projects).filter(Projects.id == id,
                                               Projects.user == current_user
                                               ).first()
-    # projects = db_sess.query(Projects).filter(
-    #     (Projects.user == current_user) | (Projects.is_private != True))
+    
     return render_template("viewing_project.html", projects=projects)
 
 
