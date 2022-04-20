@@ -21,6 +21,8 @@ class Projects(SqlAlchemyBase, SerializerMixin):
 
     is_deleted = sqlalchemy.Column(sqlalchemy.Boolean, nullable=True, default=False)
 
+    # image = sqlalchemy.Column(sqlalchemy.String, nullable=True, default=False)
+
     # is_modification = sqlalchemy.Column(sqlalchemy.Boolean, nullable=True, default=False)
 
     # is_published = sqlalchemy.Column(sqlalchemy.Boolean, default=True)
