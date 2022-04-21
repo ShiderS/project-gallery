@@ -217,9 +217,7 @@ def developer_panel():
 def projects_approve(id):
     if current_user.is_developer:
         db_sess = db_session.create_session()
-        projects = db_sess.query(Projects).filter(Projects.id == id,
-                                                  Projects.user == current_user
-                                                  ).first()
+        projects = db_sess.query(Projects).filter(Projects.id == id).first()
         if projects:
             projects.is_confirmed = True
             db_sess.commit()
