@@ -268,6 +268,21 @@ def projects_developer_delete(id):
         return redirect('/developer_panel')
 
 
+@app.route('/developer_panel/projects_not_delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def projects_developer_not_delete(id):
+    db_sess = db_session.create_session()
+    projects = db_sess.query(Projects).filter(Projects.id == id,
+                                              Projects.user == current_user
+                                              ).first()
+    if projects:
+        projects.is_deleted = False
+        db_sess.commit()
+    else:
+        abort(404)
+    return redirect('/')
+
+
 def main():
     db_session.global_init("db/project-gallerybd.db")
     app.register_blueprint(projects_api.blueprint)
