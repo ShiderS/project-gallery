@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
+<head>
+    <link rel="stylesheet" href="static/css/style_index.css">
+</head>
 <h1>Проекты</h1>
 {% if current_user.is_authenticated %}
 <a href="projects" class="btn btn-success">Добавить проект</a>
@@ -8,12 +11,13 @@
 <a href="https://google.com" target="_blank"><img src="/static/img/logo.jpg" alt="здесь должна была быть картинка, но не нашлась"></a>
 {% for item in projects%}
 {% if not item.is_deleted and item.is_confirmed %}
-<div class="col-md6 border rounded">
-    <a href="/viewing_project/{{ item.id }}" class="text-decoration-none text-reset"><h2>{{item.title}}</h2></a>
-    <div>
+<div class="grid">
+<div class="col-md6 border rounded grid-item">
+    <a href="/viewing_project/{{ item.id }}" class="bot text-decoration-none text-reset"><h2>{{item.title}}</h2></a>
+    <div class="text">
         {{item.content}}
     </div>
-    <div>
+    <div class="data">
         Автор - {{item.user.name}}, Дата написания - {{item.created_date}}
     </div>
     {% if current_user.is_authenticated and current_user == item.user %}
@@ -27,6 +31,7 @@
     </div>
     {% endif %}
     {% endif %}
+</div>
 </div>
 {% endfor %}
 {% endblock %}
