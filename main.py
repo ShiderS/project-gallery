@@ -112,10 +112,7 @@ def login():
 @login_required
 def viewing_project(id):
     db_sess = db_session.create_session()
-    projects = db_sess.query(Projects).filter(Projects.id == id,
-                                              Projects.user == current_user
-                                              ).first()
-    
+    projects = db_sess.query(Projects).filter(Projects.id == id).first()
     return render_template("viewing_project.html", projects=projects)
 
 
@@ -155,10 +152,9 @@ def edit_projects(id):
     form = ProjectsForm()
     if request.method == "GET":
         db_sess = db_session.create_session()
-        projects = db_sess.query(Projects).filter(Projects.id == id,
-                                                  Projects.user == current_user
-                                                  ).first()
-        projects.is_confirmed = False
+        projects = db_sess.query(Projects).filter(Projects.id == id).first()
+        if projects.is_confirmed:
+            projects.is_confirmed = False
         if projects:
             form.title.data = projects.title
             form.content.data = projects.content
@@ -167,10 +163,9 @@ def edit_projects(id):
             abort(404)
     if form.validate_on_submit():
         db_sess = db_session.create_session()
-        projects = db_sess.query(Projects).filter(Projects.id == id,
-                                                  Projects.user == current_user
-                                                  ).first()
-        projects.is_confirmed = False
+        projects = db_sess.query(Projects).filter(Projects.id == id).first()
+        if projects.is_confirmed:
+            projects.is_confirmed = False
         if projects:
             projects.title = form.title.data
             projects.content = form.content.data
@@ -238,12 +233,12 @@ def projects_approve(id):
 def projects_modification(id):
     if current_user.is_developer:
         db_sess = db_session.create_session()
-        projects = db_sess.query(Projects).filter(Projects.id == id,
-                                                  Projects.user == current_user
-                                                  ).first()
+        projects = db_sess.query(Projects).filter(Projects.id == id).first()
         if projects:
-            projects.is_confirmed = True
-            projects.is_private = True
+            if not projects.is_confirmed:
+                projects.is_confirmed = True
+            if not projects.is_private:
+                projects.is_private = True
             # projects.is_modification = True
             db_sess.commit()
         else:
@@ -256,9 +251,7 @@ def projects_modification(id):
 def projects_developer_delete(id):
     if current_user.is_developer:
         db_sess = db_session.create_session()
-        projects = db_sess.query(Projects).filter(Projects.id == id,
-                                                  Projects.user == current_user
-                                                  ).first()
+        projects = db_sess.query(Projects).filter(Projects.id == id).first()
         if projects:
             db_sess.delete(projects)
             # projects.is_modification = True
@@ -272,9 +265,7 @@ def projects_developer_delete(id):
 @login_required
 def projects_developer_not_delete(id):
     db_sess = db_session.create_session()
-    projects = db_sess.query(Projects).filter(Projects.id == id,
-                                              Projects.user == current_user
-                                              ).first()
+    projects = db_sess.query(Projects).filter(Projects.id == id).first()
     if projects:
         projects.is_deleted = False
         db_sess.commit()

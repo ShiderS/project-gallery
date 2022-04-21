@@ -12,7 +12,8 @@
 <body>
 <header>
     <nav class="navbar navbar-light bg-light">
-        <a href="/" class="text-decoration-none text-reset"><h1>ProjectGallery</h1></a>
+        <a href="/"><img src="/static/img/small_logo2.png" alt="здесь должна была быть картинка, но не нашлась"></a>
+        <a href="projects" class="btn btn-outline-success">Добавить проект</a>
         {% if current_user.is_developer %}
         <a href="/developer_panel" class="btn btn-outline-warning">
             Панель разработчика

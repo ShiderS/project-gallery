@@ -2,7 +2,6 @@
 
 {% block content %}
 <h1>Проекты</h1>
-<img src="/static/img/logo.jpg" alt="здесь должна была быть картинка, но не нашлась">
 {% for item in projects%}
 {% if item.is_deleted or not item.is_confirmed %}
 <div class="col-md6 border rounded">
