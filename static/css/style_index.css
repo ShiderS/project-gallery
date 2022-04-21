@@ -1,0 +1,33 @@
+.grid{
+    width: 100%;
+    max-width: 960px;
+    min-width: 460px;
+    margin: 0 auto;
+    padding: 0 30px;
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+.grid-item{
+    background-color: #d3dedd;
+    border: black, 1px, solid;
+    color: black;
+    min-height: 200px;
+    font-size: 40px;
+    color: white;
+    margin: 0 10px 20px;
+    flex: 1 1 calc(33.33% - 20px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.text{
+    color: black;
+}
+.data{
+    color: black;
+
+}
+h2{
+    color: black;
+}
