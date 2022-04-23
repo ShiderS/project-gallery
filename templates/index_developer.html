@@ -5,7 +5,7 @@
 {% for item in projects%}
 {% if item.is_deleted or not item.is_confirmed %}
 <div class="col-md6 border rounded">
-    <h2>{{item.title}}</h2>
+    <a href="/viewing_project/{{ item.id }}" class="text-decoration-none text-reset"><h2>{{item.title}}</h2></a>
     <h5>Удалено - {{item.is_deleted}}, Утверждено - {{item.is_confirmed}}</h5>
     <div>
         {{item.content}}

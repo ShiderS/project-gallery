@@ -138,6 +138,7 @@ def add_projects():
         projects.title = form.title.data
         projects.content = form.content.data
         projects.is_private = form.is_private.data
+        projects.image = form.image.data
         current_user.projects.append(projects)
         db_sess.merge(current_user)
         db_sess.commit()
