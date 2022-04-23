@@ -160,4 +160,38 @@ h1{
     color: #202020f3;
 }
 
-
+form{
+  margin-top: 100px;
+}
+textarea{
+  font-size: 30px;
+  width: 50%;
+  line-height: 40px;
+  height: 200px;
+  border: #14141451 1px solid;
+}
+.h_about{
+  clear: both;
+  color: #51c7b9;
+  font-size: 30px;
+}
+.return_profile{
+  height: 30px;
+  font-size: 20px;
+  display: inline-flex;
+  float: right;
+  margin-top: 60px;
+  margin-right: 20px;
+  background-color: #51c7b9;
+  border-radius: 7px;
+}
+button{
+  color: white;
+  height: 30px;
+  font-size: 20px;
+  display: inline-flex;
+  margin-top: 60px;
+  margin-right: 20px;
+  background-color: #51c7b9;
+  border-radius: 7px;
+}
