@@ -52,6 +52,12 @@ def user_profile():
         return render_template('profile.html')
 
 
+@app.route('/edit_user_profile')
+def edit_user_profile():
+    if current_user.is_authenticated:
+        return render_template('edit_profile.html')
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def reqister():
     form = RegisterForm()
