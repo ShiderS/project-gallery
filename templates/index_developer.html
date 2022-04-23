@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Проекты</h1>
+{% for item in projects%}
+{% if item.is_deleted or not item.is_confirmed %}
+<div class="col-md6 border rounded">
+    <a href="/viewing_project/{{ item.id }}" class="text-decoration-none text-reset"><h2>{{item.title}}</h2></a>
+    <h5>Удалено - {{item.is_deleted}}, Утверждено - {{item.is_confirmed}}</h5>
+    <div>
+        {{item.content}}
+    </div>
+    <div>
+        Автор - {{item.user.name}}, Дата написания - {{item.created_date}}
+    </div>
+    {% if current_user.is_authenticated %}
+    <div>
+        {% if not item.is_developer %}
+        <a href="/developer_panel/projects_approve/{{ item.id }}" class="btn btn-success">
+            Утвердить
+        </a>
+        <a href="/developer_panel/projects_modification/{{ item.id }}" class="btn btn-primary">
+            Отправить на доработку
+        </a>
+        {% endif %}
+        <a href="/projects/{{ item.id }}" class="btn btn-warning">
+            Изменить
+        </a>
+        {% if item.is_deleted %}
+        <a href="/developer_panel/projects_not_delete/{{ item.id }}" class="btn btn-info">
+            Оставить
+        </a>
+        {% endif %}
+        <a href="/developer_panel/projects_delete/{{ item.id }}" class="btn btn-danger">
+            Удалить
+        </a>
+    </div>
+{% endif %}
+{% endif %}
+</div>
+{% endfor %}
+{% endblock %}

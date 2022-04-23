@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Проекты</h1>
+{% if current_user.is_authenticated %}
+{% endif %}
+{% for item in projects%}
+{% if not item.is_deleted and item.is_confirmed or item.is_private%}
+<div class="col-md6 border rounded">
+    <a href="/viewing_project/{{ item.id }}" class="text-decoration-none text-reset"><h2>{{item.title}}</h2></a>
+    <div>
+        <h5>{{item.content}}</h5>
+    </div>
+    <div>
+        Автор - {{item.user.name}}, Дата написания - {{item.created_date}}
+    </div>
+    {% if current_user.is_authenticated and current_user == item.user %}
+    <div>
+        <a href="/projects/{{ item.id }}" class="btn btn-secondary">
+            Изменить
+        </a>
+        <a href="/projects_delete/{{ item.id }}" class="btn btn-danger">
+            Удалить
+        </a>
+    </div>
+    {% endif %}
+    {% endif %}
+</div>
+{% endfor %}
+{% endblock %}
