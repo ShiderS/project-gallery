@@ -2,7 +2,7 @@
 
 {% block content %}
 <h1>Добавление проекта</h1>
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data" novalidate>
     {{ form.hidden_tag() }}
     <p>
         {{ form.title.label }}<br>
@@ -23,13 +23,26 @@
         {% endfor %}
     </p>
     <p>
-    {{ form.image.label }}<br>
-        {{ form.image(class="form-group") }}<br>
+        <!--<form action="" method="post" enctype="multipart/form-data" novalidate>
+        <div>
+            {{ form.csrf_token }}
+        </div>
+        {% for field in form if field.name != 'csrf_token' %}
+            <div>
+                {{ field.label() }}
+                {{ field() }}
+                {% for error in field.errors %}
+                    <div class="error">{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </form>-->
+        {{ form.image.label() }}<br>
+        {{ form.image() }}<br>
     <!--<div class="form-group">
         <label for="photo">Приложите фотографию</label>
         <input type="file" class="form-control-file" id="photo" name="file">
-    </div>
-    -->
+    </div>-->
     </p>
     <p>{{ form.is_private() }} {{ form.is_private.label }}</p>
     <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
