@@ -8,7 +8,9 @@
 {% if not item.is_deleted and item.is_confirmed or item.is_private%}
 <div class="col-md6 border rounded">
     {% if item.image %}
-    <img src="{{ item.image }}" alt="здесь должна была быть картинка, но не нашлась">
+    <img style='display:block;' id='base64image'
+   src='data:image/jpeg;base64, {{ item.image }}'>
+    <!-- <img src="{{ item.image }}" alt="здесь должна была быть картинка, но не нашлась"> -->
     {% endif %}
     <a href="/viewing_project/{{ item.id }}" class="text-decoration-none text-reset"><h2>{{item.title}}</h2></a>
     <div>
