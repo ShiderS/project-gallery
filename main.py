@@ -130,6 +130,24 @@ def viewing_project(id):
     return render_template("viewing_project.html", projects=projects)
 
 
+@app.route('/like_projects/<int:id>', methods=['GET', 'POST'])
+@login_required
+def like_project(id):
+    db_sess = db_session.create_session()
+    projects = db_sess.query(Projects).filter(Projects.id == id).first()
+    projects.like += 1
+    return redirect(f'/viewing_project/{id}')
+
+
+@app.route('/dislike_projects/<int:id>', methods=['GET', 'POST'])
+@login_required
+def dislike_project(id):
+    db_sess = db_session.create_session()
+    projects = db_sess.query(Projects).filter(Projects.id == id).first()
+    projects.dislike += 1
+    return redirect(f'/viewing_project/{id}')
+
+
 @app.route("/")
 def index():
     db_sess = db_session.create_session()

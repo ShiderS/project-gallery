@@ -24,6 +24,10 @@ class Projects(SqlAlchemyBase, SerializerMixin):
     # image = sqlalchemy.BLOB(sqlalchemy.BLOB)
     image = sqlalchemy.Column()
 
+    like = sqlalchemy.Column(sqlalchemy.Integer, default=0)
+
+    dislike = sqlalchemy.Column(sqlalchemy.Integer, default=0)
+
     # is_modification = sqlalchemy.Column(sqlalchemy.Boolean, nullable=True, default=False)
 
     # is_published = sqlalchemy.Column(sqlalchemy.Boolean, default=True)

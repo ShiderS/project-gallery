@@ -3,6 +3,18 @@
 <body>
 {% block content %}
 <h1>{{ projects.title }}</h1>
+{% if projects.image %}
+<img style='display:block;' id='base64image'
+     src='data:image/jpeg;base64, {{ projects.image }}'>
+{% endif %}
+<div>
+    <a href="/like_projects/{{ projects.id }}" class="btn btn-success">
+        Нравится {{ projects.like }}
+    </a>
+    <a href="/dislike_projects/{{ projects.id }}" class="btn btn-danger">
+        Не нравится {{ projects.dislike }}
+    </a>
+</div>
 <p>{{ projects.content }}</p>
 {% endblock %}
 </body>
