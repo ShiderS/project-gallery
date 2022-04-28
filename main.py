@@ -135,7 +135,24 @@ def viewing_project(id):
 def like_project(id):
     db_sess = db_session.create_session()
     projects = db_sess.query(Projects).filter(Projects.id == id).first()
-    projects.like += 1
+    list_likes = current_user.likes.split()
+    list_dislikes = current_user.dislikes.split()
+    if str(id) not in list_likes:
+        if str(id) not in list_dislikes:
+            list_likes.append(str(id))
+            projects.like += 1
+            current_user.likes = ' '.join(list_likes)
+        else:
+            del list_dislikes[list_dislikes.index(str(id))]
+            projects.dislike -= 1
+            current_user.dislikes = ' '.join(list_dislikes)
+            list_likes.append(str(id))
+            projects.like += 1
+            current_user.likes = ' '.join(list_likes)
+    else:
+        del list_likes[list_likes.index(str(id))]
+        projects.like -= 1
+        current_user.likes = ' '.join(list_likes)
     db_sess.merge(current_user)
     db_sess.commit()
     return redirect(f'/viewing_project/{id}')
@@ -146,7 +163,24 @@ def like_project(id):
 def dislike_project(id):
     db_sess = db_session.create_session()
     projects = db_sess.query(Projects).filter(Projects.id == id).first()
-    projects.dislike += 1
+    list_likes = current_user.likes.split()
+    list_dislikes = current_user.dislikes.split()
+    if str(id) not in list_dislikes:
+        if str(id) not in list_likes:
+            list_dislikes.append(str(id))
+            projects.dislike += 1
+            current_user.dislikes = ' '.join(list_dislikes)
+        else:
+            del list_likes[list_likes.index(str(id))]
+            projects.like -= 1
+            current_user.likes = ' '.join(list_likes)
+            list_dislikes.append(str(id))
+            projects.dislike += 1
+            current_user.dislikes = ' '.join(list_dislikes)
+    else:
+        del list_dislikes[list_dislikes.index(str(id))]
+        projects.dislike -= 1
+        current_user.dislikes = ' '.join(list_dislikes)
     db_sess.merge(current_user)
     db_sess.commit()
     return redirect(f'/viewing_project/{id}')

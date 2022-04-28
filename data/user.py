@@ -25,8 +25,8 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
 
     projects = orm.relation("Projects", back_populates='user')
 
-    likes = sqlalchemy.ARRAY(sqlalchemy.Integer)
-    dislikes = sqlalchemy.ARRAY(sqlalchemy.Integer)
+    likes = sqlalchemy.Column(sqlalchemy.Integer)
+    dislikes = sqlalchemy.Column(sqlalchemy.Integer)
 
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)
