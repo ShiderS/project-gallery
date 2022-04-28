@@ -136,6 +136,8 @@ def like_project(id):
     db_sess = db_session.create_session()
     projects = db_sess.query(Projects).filter(Projects.id == id).first()
     projects.like += 1
+    db_sess.merge(current_user)
+    db_sess.commit()
     return redirect(f'/viewing_project/{id}')
 
 
@@ -145,6 +147,8 @@ def dislike_project(id):
     db_sess = db_session.create_session()
     projects = db_sess.query(Projects).filter(Projects.id == id).first()
     projects.dislike += 1
+    db_sess.merge(current_user)
+    db_sess.commit()
     return redirect(f'/viewing_project/{id}')
 
 

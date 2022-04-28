@@ -19,16 +19,6 @@
     <div>
         Автор - {{item.user.name}}, Дата написания - {{item.created_date}}
     </div>
-    {% if current_user.is_authenticated and current_user == item.user %}
-    <div>
-        <a href="/projects/{{ item.id }}" class="btn btn-secondary">
-            Изменить
-        </a>
-        <a href="/projects_delete/{{ item.id }}" class="btn btn-danger">
-            Удалить
-        </a>
-    </div>
-    {% endif %}
     {% endif %}
 </div><br>
 {% endfor %}

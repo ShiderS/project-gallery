@@ -14,7 +14,17 @@
     <a href="/dislike_projects/{{ projects.id }}" class="btn btn-danger">
         Не нравится {{ projects.dislike }}
     </a>
-</div>
+</div><br>
+{% if current_user.is_authenticated and current_user == projects.user %}
+    <div>
+        <a href="/projects/{{ projects.id }}" class="btn btn-secondary">
+            Изменить
+        </a>
+        <a href="/projects_delete/{{ projects.id }}" class="btn btn-danger">
+            Удалить
+        </a>
+    </div>
+{% endif %}
 <p>{{ projects.content }}</p>
 {% endblock %}
 </body>
