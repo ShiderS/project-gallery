@@ -57,7 +57,9 @@ def convert_to_binary_data(file):
 @login_required
 def user_profile():
     if current_user.is_authenticated:
-        return render_template('profile.html')
+        db_ses = db_session.create_session()
+        user = db_ses.query(User).filter(User.id == current_user.get_id()).first()
+        return render_template('profile.html', about_me=user.about)
 
 
 @app.route('/edit_user_profile')
