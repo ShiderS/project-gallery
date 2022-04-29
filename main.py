@@ -59,12 +59,25 @@ def user_profile():
     if current_user.is_authenticated:
         db_ses = db_session.create_session()
         user = db_ses.query(User).filter(User.id == current_user.get_id()).first()
-        return render_template('profile.html', about_me=user.about)
+        if user.about:
+            return render_template('profile.html', about_me=user.about)
+        else:
+            return render_template('profile.html', about_me='Пока пусто :(')
 
 
-@app.route('/edit_user_profile')
+@app.route('/edit_user_profile', methods=['post', 'get'])
 def edit_user_profile():
     if current_user.is_authenticated:
+        if request.method == 'POST':
+            about_me1 = request.form.get('aboutme')
+            db_ses = db_session.create_session()
+            user = db_ses.query(User).filter(User.id == current_user.get_id()).first()
+            user.about = about_me1
+            db_ses.commit()
+            if about_me1:
+                return render_template('profile.html', about_me=about_me1)
+            else:
+                return render_template('profile.html', about_me='Пока пусто :(')
         return render_template('edit_profile.html')
 
 

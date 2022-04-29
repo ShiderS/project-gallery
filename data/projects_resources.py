@@ -7,7 +7,6 @@ from data import db_session
 from data.projects import Projects
 from main import abort_if_projects_not_found
 
-
 parser = reqparse.RequestParser()
 parser.add_argument('title', required=True)
 parser.add_argument('content', required=True)
