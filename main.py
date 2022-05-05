@@ -154,8 +154,14 @@ def viewing_project(id):
 def like_project(id):
     db_sess = db_session.create_session()
     projects = db_sess.query(Projects).filter(Projects.id == id).first()
-    list_likes = current_user.likes.split()
-    list_dislikes = current_user.dislikes.split()
+    if current_user.likes == str(current_user.likes):
+        list_likes = current_user.likes.split()
+    else:
+        list_likes = [str(current_user.likes)]
+    if current_user.dislikes == str(current_user.dislikes):
+        list_dislikes = current_user.dislikes.split()
+    else:
+        list_dislikes = [str(current_user.dislikes)]
     if str(id) not in list_likes:
         if str(id) not in list_dislikes:
             list_likes.append(str(id))
@@ -182,8 +188,14 @@ def like_project(id):
 def dislike_project(id):
     db_sess = db_session.create_session()
     projects = db_sess.query(Projects).filter(Projects.id == id).first()
-    list_likes = current_user.likes.split()
-    list_dislikes = current_user.dislikes.split()
+    if current_user.likes == str(current_user.likes):
+        list_likes = current_user.likes.split()
+    else:
+        list_likes = [str(current_user.likes)]
+    if current_user.dislikes == str(current_user.dislikes):
+        list_dislikes = current_user.dislikes.split()
+    else:
+        list_dislikes = [str(current_user.dislikes)]
     if str(id) not in list_dislikes:
         if str(id) not in list_likes:
             list_dislikes.append(str(id))
