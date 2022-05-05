@@ -15,6 +15,7 @@
         Не нравится {{ projects.dislike }}
     </a>
 </div><br>
+<p>{{ projects.content }}</p>
 {% if current_user.is_authenticated and current_user == projects.user %}
     <div>
         <a href="/projects/{{ projects.id }}" class="btn btn-secondary">
@@ -25,6 +26,5 @@
         </a>
     </div>
 {% endif %}
-<p>{{ projects.content }}</p>
 {% endblock %}
 </body>
