@@ -142,6 +142,10 @@ def login():
 def viewing_project(id):
     db_sess = db_session.create_session()
     projects = db_sess.query(Projects).filter(Projects.id == id).first()
+    a = projects.image
+    if a:
+        with open('static/img/new_img.png', 'wb') as f:
+            f.write(a)
     return render_template("viewing_project.html", projects=projects)
 
 

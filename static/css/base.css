@@ -2,3 +2,8 @@ header{
     position: sticky;
     top: 0;
 }
+.img_project{
+    width: 60%;
+    height: 50%;
+    margin-bottom: 20px;
+}

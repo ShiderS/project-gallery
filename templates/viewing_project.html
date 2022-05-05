@@ -1,11 +1,10 @@
 {% extends "base.html" %}
-
 <body>
 {% block content %}
 <h1>{{ projects.title }}</h1>
 {% if projects.image %}
-<img style='display:block;' id='base64image'
-     src='data:image/jpeg;base64, {{ projects.image }}'>
+<img class="img_project"
+     src='../static/img/new_img.png'>
 {% endif %}
 <div>
     <a href="/like_projects/{{ projects.id }}" class="btn btn-success">
