@@ -59,8 +59,11 @@ def user_profile():
     if current_user.is_authenticated:
         db_ses = db_session.create_session()
         user = db_ses.query(User).filter(User.id == current_user.get_id()).first()
+        id = current_user.get_id()
+        projects = db_ses.query(Projects).filter(Projects.user_id == id).all()
+        # print(projects.title)
         if user.about:
-            return render_template('profile.html', about_me=user.about)
+            return render_template('profile.html', about_me=user.about, projects=projects)
         else:
             return render_template('profile.html', about_me='Пока пусто :(')
 
