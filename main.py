@@ -288,6 +288,13 @@ def edit_projects(id):
             projects.title = form.title.data
             projects.content = form.content.data
             projects.is_private = form.is_private.data
+            f = form.image.data
+            print(f.filename)
+            if f.filename != '':
+                save_to = f'static/temporary_img/{f.filename}'
+                f.save(save_to)
+                projects.image = convert_to_binary_data(save_to)
+            db_sess.merge(current_user)
             db_sess.commit()
             return redirect('/')
         else:
