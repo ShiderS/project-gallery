@@ -166,6 +166,7 @@ def like_project(id):
         list_dislikes = current_user.dislikes.split()
     else:
         list_dislikes = [str(current_user.dislikes)]
+
     if str(id) not in list_likes:
         if str(id) not in list_dislikes:
             list_likes.append(str(id))
@@ -200,6 +201,9 @@ def dislike_project(id):
         list_dislikes = current_user.dislikes.split()
     else:
         list_dislikes = [str(current_user.dislikes)]
+    print(list_likes)
+    print(list_dislikes)
+
     if str(id) not in list_dislikes:
         if str(id) not in list_likes:
             list_dislikes.append(str(id))
@@ -230,7 +234,6 @@ def index():
         projects1 = db_sess.query(Projects).filter(Projects.title.like(f"%{search.capitalize()}%") |
                                                    Projects.title.like(f"%{search.lower()}%") |
                                                    Projects.title.like(f"%{search.upper()}%")).all()
-        print(projects1)
         return render_template("index.html", projects=projects1)
     if current_user.is_authenticated:
         projects = db_sess.query(Projects).filter(
@@ -256,7 +259,7 @@ def add_projects():
             save_to = f'static/temporary_img/{f.filename}'
             f.save(save_to)
             projects.image = convert_to_binary_data(save_to)
-        current_user.projects.append(projects)
+        # current_user.projects.append(projects)
         db_sess.merge(current_user)
         db_sess.commit()
         return redirect('/')
@@ -289,7 +292,6 @@ def edit_projects(id):
             projects.content = form.content.data
             projects.is_private = form.is_private.data
             f = form.image.data
-            print(f.filename)
             if f.filename != '':
                 save_to = f'static/temporary_img/{f.filename}'
                 f.save(save_to)
@@ -374,9 +376,26 @@ def projects_modification(id):
 def projects_developer_delete(id):
     if current_user.is_developer:
         db_sess = db_session.create_session()
+        users = db_sess.query(User).filter()
         projects = db_sess.query(Projects).filter(Projects.id == id).first()
         if projects:
             db_sess.delete(projects)
+            for user in users:
+                if user.likes == str(user.likes):
+                    list_likes = user.likes.split()
+                else:
+                    list_likes = [str(user.likes)]
+                if user.dislikes == str(user.dislikes):
+                    list_dislikes = user.dislikes.split()
+                else:
+                    list_dislikes = [str(user.dislikes)]
+
+                if str(id) in list_likes:
+                    del list_likes[list_likes.index(str(id))]
+                    user.likes = ' '.join(list_likes)
+                if str(id) in list_dislikes:
+                    del list_dislikes[list_dislikes.index(str(id))]
+                    user.dislikes = ' '.join(list_dislikes)
             # projects.is_modification = True
             db_sess.commit()
         else:
