@@ -220,9 +220,17 @@ def dislike_project(id):
     return redirect(f'/viewing_project/{id}')
 
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def index():
     db_sess = db_session.create_session()
+    if request.method == "POST":
+        db_sess = db_session.create_session()
+        search = request.form.get('text')
+        projects1 = db_sess.query(Projects).filter(Projects.title.like(f"%{search.capitalize()}%") |
+                                                   Projects.title.like(f"%{search.lower()}%") |
+                                                   Projects.title.like(f"%{search.upper()}%")).all()
+        print(projects1)
+        return render_template("index.html", projects=projects1)
     if current_user.is_authenticated:
         projects = db_sess.query(Projects).filter(
             (Projects.user == current_user) | (Projects.is_private != True))
