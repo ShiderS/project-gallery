@@ -52,7 +52,7 @@ def convert_to_binary_data(file):
 
 # User
 
-
+# профиль юзера
 @app.route('/user_profile')
 @login_required
 def user_profile():
@@ -68,6 +68,7 @@ def user_profile():
             return render_template('profile.html', about_me='Пока пусто :(')
 
 
+# изменение информации о себе в профиле
 @app.route('/edit_user_profile', methods=['post', 'get'])
 def edit_user_profile():
     if current_user.is_authenticated:
