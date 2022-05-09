@@ -381,6 +381,7 @@ def projects_developer_delete(id):
         users = db_sess.query(User).filter()
         projects = db_sess.query(Projects).filter(Projects.id == id).first()
 
+        # check git
         if projects:
             db_sess.delete(projects)
             for user in users:
