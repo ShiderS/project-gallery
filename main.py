@@ -253,14 +253,17 @@ def add_projects():
         projects.content = form.content.data
         projects.is_private = form.is_private.data
         f = form.image.data
+        check = 0
         if f.filename != '':
+            check = 1
             save_to = f'static/temporary_img/{f.filename}'
             f.save(save_to)
             projects.image = convert_to_binary_data(save_to)
         current_user.projects.append(projects)
         db_sess.merge(current_user)
         db_sess.commit()
-        remove(save_to)
+        if check:
+            remove(save_to)
         return redirect('/')
     return render_template('projects.html', title='Добавление проекта',
                            form=form)

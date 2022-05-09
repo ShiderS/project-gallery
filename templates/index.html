@@ -5,7 +5,7 @@
 {% if current_user.is_authenticated %}
 {% endif %}
 {% for item in projects%}
-{% if not item.is_deleted and item.is_confirmed or item.is_private or item.user_id == current_user.id %}
+{% if (not item.is_deleted and item.is_confirmed) or item.is_private or (item.user_id == current_user.id and not item.is_deleted) %}
 <div class="col-md6 border rounded">
     {% if item.image %}
     <img style='display:block;' id='base64image'
