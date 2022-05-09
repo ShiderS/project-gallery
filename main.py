@@ -1,4 +1,4 @@
-from os import abort
+from os import abort, remove
 from flask import Flask, request, make_response, render_template, redirect, jsonify
 import datetime
 from data import db_session, projects_resources
@@ -260,6 +260,7 @@ def add_projects():
         current_user.projects.append(projects)
         db_sess.merge(current_user)
         db_sess.commit()
+        remove(save_to)
         return redirect('/')
     return render_template('projects.html', title='Добавление проекта',
                            form=form)
