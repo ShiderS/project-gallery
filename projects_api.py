@@ -72,3 +72,4 @@ def delete_projects(projects_id):
     db_sess.delete(projects)
     db_sess.commit()
     return jsonify({'success': 'OK'})
+    print(1)
