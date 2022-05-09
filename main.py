@@ -201,8 +201,6 @@ def dislike_project(id):
         list_dislikes = current_user.dislikes.split()
     else:
         list_dislikes = [str(current_user.dislikes)]
-    print(list_likes)
-    print(list_dislikes)
 
     if str(id) not in list_dislikes:
         if str(id) not in list_likes:
@@ -259,7 +257,7 @@ def add_projects():
             save_to = f'static/temporary_img/{f.filename}'
             f.save(save_to)
             projects.image = convert_to_binary_data(save_to)
-        # current_user.projects.append(projects)
+        current_user.projects.append(projects)
         db_sess.merge(current_user)
         db_sess.commit()
         return redirect('/')
