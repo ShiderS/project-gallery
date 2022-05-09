@@ -40,7 +40,7 @@ def main():
     # db_sess = db_session.create_session()
     # db_sess.add(user)
     # db_sess.commit()
-
+    print('Старт!')
 
 def convert_to_binary_data(file):
     if file != '':
