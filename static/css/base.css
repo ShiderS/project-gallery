@@ -53,3 +53,16 @@ header{
   padding: 0;
   vertical-align: bottom;
 }
+.comm{
+    display: flex;
+    justify-content: left;
+    margin-bottom: 50px;
+}
+.comment{
+    font-size: 20px;
+    width: 50%;
+}
+.aaa{
+    width: 50%;
+    margin-top: 50px;
+}

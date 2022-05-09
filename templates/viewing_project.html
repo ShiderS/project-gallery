@@ -26,5 +26,27 @@
         </a>
     </div>
 {% endif %}
+<hr>
+<p>Напишите комментарий:</p>
+<form action="" method="post" class="comm">
+    <textarea name='text' class="comment"></textarea>
+    <input name="com_submit" type="submit">
+</form>
+<p>Комментарии:</p>
+{% if comments %}
+{% for i in comments %}
+<div class="col-md6 border rounded aaa">
+    <h2>{{i[1].name}}</h2>
+    <div>
+        <h5>{{i[0]}}</h5>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+    <div class="col-md6 border rounded aaa">
+    <h2>Ещё никто не написал комментарий :(</h2>
+</div>
+<br>
+{% endif %}
 {% endblock %}
 </body>
