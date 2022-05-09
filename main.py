@@ -380,6 +380,7 @@ def projects_developer_delete(id):
         db_sess = db_session.create_session()
         users = db_sess.query(User).filter()
         projects = db_sess.query(Projects).filter(Projects.id == id).first()
+
         if projects:
             db_sess.delete(projects)
             for user in users:
