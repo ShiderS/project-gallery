@@ -22,6 +22,10 @@ app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(
 api = Api(app)
 
 
+def delete_project(id):
+    pass
+
+
 def abort_if_projects_not_found(projects_id):
     session = db_session.create_session()
     projects = session.query(Projects).get(projects_id)
@@ -62,6 +66,22 @@ def user_profile():
         id = current_user.get_id()
         projects = db_ses.query(Projects).filter(Projects.user_id == id).all()
         # print(projects.title)
+
+        # image_project = projects.image
+        # if image_project:
+        #     with open('static/img/new_img.png', 'wb') as f:
+        #         f.write(image_project)
+
+        # with open('static/comments.txt', 'r') as f:
+        #     comments = f.readlines()
+        # comments = [i.rstrip('\n') for i in comments[:-1]]
+        # comments_new = []
+        # for i in comments:
+        #     new = i.split(':')
+        #     nick = db_sess.query(User).filter(User.id == new[1]).first()
+        #     if projects.id == int(new[2]):
+        #         comments_new.append([new[0], nick])
+
         if user.about:
             return render_template('profile.html', about_me=user.about, projects=projects)
         else:
@@ -146,9 +166,32 @@ def login():
 def viewing_project(id):
     db_sess = db_session.create_session()
     projects = db_sess.query(Projects).filter(Projects.id == id).first()
-    a = request.form.get('com_submit')
-    print(a)
-    if request.method == 'POST' and a:
+
+    if request.method == 'POST':
+        project_comment(id)
+    image_project = projects.image
+    if image_project:
+        with open('static/img/new_img.png', 'wb') as f:
+            f.write(image_project)
+
+    with open('static/comments.txt', 'r') as f:
+        comments = f.readlines()
+    comments = [i.rstrip('\n') for i in comments[:-1]]
+    comments_new = []
+    for i in comments:
+        new = i.split(':')
+        nick = db_sess.query(User).filter(User.id == new[1]).first()
+        if projects.id == int(new[2]):
+            comments_new.append([new[0], nick])
+    return render_template("viewing_project.html", projects=projects, comments=comments_new)
+
+
+@app.route('/project_comment/<int:id>', methods=['GET', 'POST'])
+@login_required
+def project_comment(id):
+    db_sess = db_session.create_session()
+    projects = db_sess.query(Projects).filter(Projects.id == id).first()
+    if request.form.get('text'):
         with open('static/comments.txt', 'a') as f:
             f.write(f'{request.form.get("text")}:{current_user.get_id()}:{id}\n')
         with open('static/comments.txt', 'r') as f:
@@ -160,24 +203,7 @@ def viewing_project(id):
             nick = db_sess.query(User).filter(User.id == new[1]).first()
             if projects.id == int(new[2]):
                 comments_new.append([new[0], nick])
-        #print(comments_new)
-        return render_template("viewing_project.html", projects=projects, comments=comments_new)
-
-    a = projects.image
-    if a:
-        with open('static/img/new_img.png', 'wb') as f:
-            f.write(a)
-    with open('static/comments.txt', 'r') as f:
-        comments = f.readlines()
-    comments = [i.rstrip('\n') for i in comments[:-1]]
-    comments_new = []
-    for i in comments:
-        new = i.split(':')
-        print(new)
-        nick = db_sess.query(User).filter(User.id == new[1]).first()
-        if projects.id == int(new[2]):
-            comments_new.append([new[0], nick])
-    return render_template("viewing_project.html", projects=projects, comments=comments_new)
+    return redirect(f'/viewing_project/{id}')
 
 
 @app.route('/like_projects/<int:id>', methods=['GET', 'POST'])

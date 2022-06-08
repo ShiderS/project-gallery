@@ -30,13 +30,14 @@
 <p>Напишите комментарий:</p>
 <form action="" method="post" class="comm">
     <textarea name='text' class="comment"></textarea>
+    <!--<a href="/project_comment/{{ projects.id }}" class="btn btn-secondary">Отправить</a>-->
     <input name="com_submit" type="submit">
 </form>
 <p>Комментарии:</p>
 {% if comments %}
 {% for i in comments %}
 <div class="col-md6 border rounded aaa">
-    <h2>{{i[1].name}}</h2>
+    <h4>{{i[1].name}}</h4>
     <div>
         <h5>{{i[0]}}</h5>
     </div>
@@ -44,7 +45,7 @@
 {% endfor %}
 {% else %}
     <div class="col-md6 border rounded aaa">
-    <h2>Ещё никто не написал комментарий :(</h2>
+    <h5>Ещё никто не написал комментарий :(</h5>
 </div>
 <br>
 {% endif %}
