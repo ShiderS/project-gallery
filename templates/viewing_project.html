@@ -16,7 +16,7 @@
     </a>
 </div><br>
 <p>{{ projects.content }}</p>
-{% if current_user.is_authenticated and current_user == projects.user %}
+{% if current_user.is_authenticated and current_user == projects.user or current_user.is_developer %}
     <div>
         <a href="/projects/{{ projects.id }}" class="btn btn-secondary">
             Изменить

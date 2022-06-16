@@ -366,9 +366,7 @@ def edit_projects(id):
 @login_required
 def projects_delete(id):
     db_sess = db_session.create_session()
-    projects = db_sess.query(Projects).filter(Projects.id == id,
-                                              Projects.user == current_user
-                                              ).first()
+    projects = db_sess.query(Projects).filter(Projects.id == id).first()
     if projects:
         projects.is_deleted = True
         db_sess.commit()
